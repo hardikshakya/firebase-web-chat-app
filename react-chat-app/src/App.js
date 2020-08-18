@@ -10,7 +10,7 @@ import Chat from "./pages/Chat";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import { auth } from "./services/firebase";
-import "./App.css";
+import "./styles.css";
 
 function PrivateRoute({ component: Component, authenticated, ...rest }) {
     return (
@@ -58,17 +58,15 @@ class App extends Component {
 
     componentDidMount() {
         auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.setState({
-                    authenticated: true,
-                    loading: false,
-                });
-            } else {
-                this.setState({
-                    authenticated: false,
-                    loading: false,
-                });
-            }
+            user
+                ? this.setState({
+                      authenticated: true,
+                      loading: false,
+                  })
+                : this.setState({
+                      authenticated: false,
+                      loading: false,
+                  });
         });
     }
 
