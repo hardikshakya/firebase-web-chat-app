@@ -58,40 +58,44 @@ class App extends Component {
 
     componentDidMount() {
         auth().onAuthStateChanged((user) => {
-            user
-                ? this.setState({
-                      authenticated: true,
-                      loading: false,
-                  })
-                : this.setState({
-                      authenticated: false,
-                      loading: false,
-                  });
+            if (user) {
+                this.setState({
+                    authenticated: true,
+                    loading: false,
+                });
+            } else {
+                this.setState({
+                    authenticated: false,
+                    loading: false,
+                });
+            }
         });
     }
 
     render() {
         return this.state.loading === true ? (
-            <h2>Loading...</h2>
+            <div className="spinner-border text-success" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
         ) : (
             <Router>
                 <Switch>
-                    <Route exact path="/" component={Home}></Route>
+                    <Route exact path="/" component={Home} />
                     <PrivateRoute
                         path="/chat"
                         authenticated={this.state.authenticated}
                         component={Chat}
-                    ></PrivateRoute>
+                    />
                     <PublicRoute
                         path="/signup"
                         authenticated={this.state.authenticated}
                         component={Signup}
-                    ></PublicRoute>
+                    />
                     <PublicRoute
                         path="/login"
                         authenticated={this.state.authenticated}
                         component={Login}
-                    ></PublicRoute>
+                    />
                 </Switch>
             </Router>
         );
